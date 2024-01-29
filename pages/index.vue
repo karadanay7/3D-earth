@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-black overflow-scroll">
-    <div class="flex flex-row flex-wrap h-screen p-8 font-index">
+    <div class="flex flex-row flex-wrap h-screen p-8 font-index z-30">
       <div
         class="text-4xl md:text-5xl lg:text-7xl text-gray-200 flex flex-col justify-center items-center lg:items-start w-full lg:w-1/2 tracking-wider gap-10 font-index no-wrap pt-10 lg:pt-0 pb-0 lg:pb-32"
       >
@@ -53,7 +53,94 @@
     </div>
   </div>
 </template>
+<!-- 
+<script setup>
+import SplineLoader from "@splinetool/loader";
+import * as THREE from "three";
+import Stats from "three/addons/libs/stats.module.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { onMounted, ref } from "vue";
 
-<script setup></script>
+const threeContainer = ref(null);
+let camera, scene, renderer, controls, stats;
+let loadedObject;
 
-<style lang="scss" scoped></style>
+onMounted(() => {
+  const container = threeContainer.value;
+
+  // Set up camera, scene, loader, and renderer
+  camera = new THREE.OrthographicCamera(
+    window.innerWidth / -2,
+    window.innerWidth / 2,
+    window.innerHeight / 2,
+    window.innerHeight / -2,
+    -50000,
+    10000
+  );
+  camera.position.set(0, 0, 0);
+
+  scene = new THREE.Scene();
+
+  const loader = new SplineLoader();
+  loader.load(
+    "https://prod.spline.design/G01ekcHVqkSQPQET/scene.splinecode",
+    (splineScene) => {
+      loadedObject = splineScene;
+      scene.add(loadedObject);
+    }
+  );
+
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  container.appendChild(renderer.domElement);
+
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
+
+  scene.background = new THREE.Color("#000000");
+  renderer.setClearAlpha(0);
+
+  // Set up controls
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.125;
+
+  // Set up stats
+  stats = new Stats();
+  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+  container.appendChild(stats.dom);
+
+  // Handle window resize
+  window.addEventListener("resize", onWindowResize);
+
+  // Start the animation loop
+  animate();
+});
+
+function onWindowResize() {
+  camera.left = window.innerWidth / -2;
+  camera.right = window.innerWidth / 2;
+  camera.top = window.innerHeight / 2;
+  camera.bottom = window.innerHeight / -2;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Rotate the loaded object horizontally
+  if (loadedObject) {
+    loadedObject.rotation.y += 0.001; // Adjust the rotation speed as needed
+  }
+
+  // Update controls
+  controls.update();
+
+  // Render the scene
+  renderer.render(scene, camera);
+
+  // Update stats
+  stats.update();
+}
+</script> -->
